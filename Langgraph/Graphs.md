@@ -81,5 +81,53 @@ def my_node(state: State) -> Command[Literal["my_other_node"]]:
     )
 ```
 **Note**: When returning `Command` in your node functions, you must add return type annotations with the list of node names the node is routing to, e.g. `Command[Literal["my_other_node"]]`. This is necessary for the graph rendering and tells LangGraph that `my_node` can navigate to `my_other_node`.
+## Command vs conditional edges
+- Use `Command()` to send an updated version of the state.
+- Use conditional edges to send a *non* updated version of the state.
+- If you are using [subgraphs](https://langchain-ai.github.io/langgraph/concepts/subgraphs/), you might want to navigate from a node within a subgraph to a different subgraph (i.e. a different node in the parent graph). To do so, you can specify `graph=Command.PARENT` in `Command`:
+```python
+def my_node(state: State) -> Command[Literal["other_subgraph"]]:
+    return Command(
+        update={"foo": "bar"},
+        goto="other_subgraph",  # where `other_subgraph` is a node in the parent graph
+        graph=Command.PARENT
+    )
+```
+
+**Note:** 
+- Setting `graph` to `Command.PARENT` will navigate to the closest parent graph.
+- When you send updates from a subgraph node to a parent graph node for a key that's shared by both parent and subgraph [state schemas](https://langchain-ai.github.io/langgraph/concepts/low_level/#schema), you **must** define a [reducer](https://langchain-ai.github.io/langgraph/concepts/low_level/#reducers) for the key you're updating in the parent graph state. See this [example](https://langchain-ai.github.io/langgraph/how-tos/graph-api/#navigate-to-a-node-in-a-parent-graph).
+## Human in the loop
+- Use `Command(resume="User input")` after using `interrupt()` for collecting user input. Check out [this conceptual guide](https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/) for more information.
+# Configuration
+A config schema can be defined to configure graphs. First define the config schema. For example, like so,
+```python
+class ConfigSchema(TypedDict):
+    llm: str
+
+graph = StateGraph(State, config_schema=ConfigSchema)
+```
+
+Then create an object that conforms to the type specified as an argument in `ConfigSchema()` like so, and pass it into the `StateGraph` object.
+```python
+config = {"configurable": {"llm": "anthropic"}}
+
+graph.invoke(inputs, config=config)
+```
+The configuration can be accessed by the nodes:
+```python
+def node_a(state, config):
+    llm_type = config.get("configurable", {}).get("llm", "openai")
+    llm = get_llm(llm_type)
+    ...
+```
+## Recursion limit
+- Use this to set the max number of super-steps the graph can execute in a single execution. 
+- Default value = 25
+*Note:* Importantly, `recursion_limit` is a standalone `config` key and should not be passed inside the `configurable` key as all other user-defined configuration. See the example below:
+```python
+graph.invoke(inputs, config={"recursion_limit": 5, "configurable":{"llm": "anthropic"}})
+```
+
 # Where to go next
 Read [How to use the graph API](https://langchain-ai.github.io/langgraph/how-tos/graph-api/). I will make notes on it soon.
