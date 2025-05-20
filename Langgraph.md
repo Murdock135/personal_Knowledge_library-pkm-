@@ -49,3 +49,35 @@ from langgraph.graph import MessagesState
 class State(MessagesState):
     documents: list[str]
 ```
+# Nodes
+- Nodes are functions (sync or async) with two arguments:
+	- `state`
+	-  `config`
+- Behind the scenes, nodes are converted into *runnable lambdas*, which add **batch and async support**. 
+# Edges
+Note: There's nothing special about edges so there's no notes. However, I took notes on **Conditional Edges** below
+## Conditional edge
+The following call signature is used- 
+```python
+graph.add_conditional_edges("node_a", routing_function) # routing_function should return the name of a node
+```
+- A dictionary can be used to delineate when there are multiple possible *next* nodes.
+```python
+graph.add_conditional_edges("node_a", routing_function, {output_b: "node_b", output_c : "node_c"})
+```
+**Tip: Use [`Command`](https://langchain-ai.github.io/langgraph/concepts/low_level/#command) instead of conditional edges if you want to combine state updates and routing in a single function.**
+# Send
+![[Screenshot from 2025-05-19 21-12-02.png]]
+We can use the `Send(recieving_node, state_object)` method to send *different versions*(not different states) of a `state` object to the receiving node. 
+# Command
+This is used to explicitly define the update of the state and where to send the update to, unlike a *node*, where the update is decided by the runnable lambda and the node to send to is not defined and instead, the preset edge direction is used for that.
+```python
+def my_node(state: State) -> Command[Literal["my_other_node"]]:
+    return Command(
+        # state update
+        update={"foo": "bar"},
+        # control flow
+        goto="my_other_node"
+    )
+```
+**Note**: When returning `Command` in your node functions, you must add return type annotations with the list of node names the node is routing to, e.g. `Command[Literal["my_other_node"]]`. This is necessary for the graph rendering and tells LangGraph that `my_node` can navigate to `my_other_node`.
