@@ -81,3 +81,5 @@ def my_node(state: State) -> Command[Literal["my_other_node"]]:
     )
 ```
 **Note**: When returning `Command` in your node functions, you must add return type annotations with the list of node names the node is routing to, e.g. `Command[Literal["my_other_node"]]`. This is necessary for the graph rendering and tells LangGraph that `my_node` can navigate to `my_other_node`.
+# Where to go next
+Read [How to use the graph API](https://langchain-ai.github.io/langgraph/how-tos/graph-api/). I will make notes on it soon.
