@@ -47,3 +47,28 @@ Hi
 
 Hello!
 ```
+# MessagesState
+The `add_messages` method can handle messages of different types, such as messages of the  [OpenAI format](https://python.langchain.com/docs/concepts/messages/#openai-format). 
+```python
+from langgraph.graph.message import add_messages
+
+
+class State(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+    extra_field: int
+
+
+def node(state: State):
+    new_message = AIMessage("Hello!")
+    return {"messages": [new_message], "extra_field": 10}
+
+
+graph = StateGraph(State).add_node(node).set_entry_point("node").compile()
+
+input_message = {"role": "user", "content": "Hi"}
+
+result = graph.invoke({"messages": [input_message]})
+
+for message in result["messages"]:
+    message.pretty_print()
+```
