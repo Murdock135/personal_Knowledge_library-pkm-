@@ -1,5 +1,5 @@
 A metric space is any space for which a suitable notion of *distance* is defined.
-**Definition:** A metric space is a 2-tuple with set X and distance function $f$
+**Definition:** A metric space is a 2-tuple ($\mathbf{X},f$) with set X and distance function $f$
 $$
 f:X\times X \rightarrow \mathbf{R}
 $$

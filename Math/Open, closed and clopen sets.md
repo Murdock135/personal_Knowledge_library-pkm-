@@ -1,0 +1,2 @@
+
+Members of a topology $\tau$ are called *open sets*. Members of an open set are *closed sets*. This nomenclature is not ideal, but derives from the so called "open intervals" and "closed intervals" on the real number line. 

@@ -1,0 +1,3 @@
+Dempster shafer theory was created to overcome the following shortcoming within probability theory:
+In probability theory, events are considered to comprise a [[Sigma algebra and field]]. Which means that as we assign a probability to an event (probability that the event occurs), we automatically assign a probability to the complement of the event (probability that the event does not occur).
+The theory allows one to combine evidence from different sources and arrive at a degree of belief (represented by a mathematical object called _belief function_) that takes into account all the available evidence.
