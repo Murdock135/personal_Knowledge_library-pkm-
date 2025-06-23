@@ -1,0 +1,2 @@
+A common philosophical (and academic) expression meaning **how X fits in**, or **what role X plays** in a system, argument, or process.  
+Example: _“the place of emotion in moral reasoning”_ means “how emotion contributes to or affects moral reasoning.”
