@@ -1,10 +1,11 @@
 Dempster shafer theory can be interpreted as a generalization of probability theory. Here, probabilities are assigned to *sets* rather than singletons. 
-
+The probability assignment function is called the *Basic Probability Assignment or BPA* function. See [[BPA]].
+From the BPA, the upper and lower bounds of an interval can be defined. These are respectively called *Plausibility* and *Belief*. Both of these measures are non-additive, meaning, the measures do not have to sum up to 1, unlike the probability assignment function.
 # Belief and Plausibility
 ## Belief
 The belief $bel(A)$ for a set A is the sum of all the masses of subsets of the set of interest.
 $$ 
-bel(A)=\sum_{B|B \subseteq A} m(A)
+bel(A)=\sum_{B|B \subseteq A} m(B)
 $$
 Where $m$ is the [[BPA]] (Basic Probability Assignment) function.
 ## Plausibility
@@ -12,6 +13,7 @@ Let $\omega$ be a set of subsets of $\Omega$ wherein every subset has at least o
 $$
 \omega=\{ s: s \cap A \neq \Phi \}
 $$
+where $s \subset \Omega$ and $A \subset \Omega$
 Then the plausibility of A is 
 $$
 pl(A)=\sum m(\omega)
