@@ -1,0 +1,2 @@
+Item response theory offers tests that measure both the individual's feelings towards an item and the individual's ability to test the item itself. It does not assume that each item is equally difficult.
+IRT is based on the idea that the probability of a correct response to an item is a mathematical function of person and item parameters (The person parameter is treated as a latent variable). 
