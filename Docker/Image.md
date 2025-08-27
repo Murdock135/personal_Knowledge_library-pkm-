@@ -1,0 +1,1 @@
+A Docker image is a read-only, versioned snapshot of a filesystem bundled with metadata, produced by executing a Dockerfile. It is a layered artifact where each instruction in the Dockerfile corresponds to one immutable layer.
