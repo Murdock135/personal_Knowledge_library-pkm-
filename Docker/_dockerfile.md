@@ -193,3 +193,6 @@ Supported mount types:
 |[`ssh`](https://docs.docker.com/reference/dockerfile/#run---mounttypessh)|Allow the build container to access SSH keys via SSH agents, with support for passphrases.|
 
 Contents of the cache directories persists between builder invocations without invalidating the instruction cache. Cache mounts should only be used for better performance. Your build should work with any contents of the cache directory as another build may overwrite the files or GC may clean it if more storage space is needed.
+- In certain instructions, *environment variables* (declared with the `ENV` statement) will be interpreted as variables.
+> Note:
+> There's some information on **variable substitution** in this section. You can just look it up when you need to. 
