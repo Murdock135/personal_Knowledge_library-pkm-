@@ -69,4 +69,21 @@ Tip: if on windows, use "\`" as the escape character.
 
 To see all available checks, see the [build checks reference](https://docs.docker.com/reference/build-checks/). Note that the checks available depend on the Dockerfile syntax version. To make sure you're getting the most up-to-date checks, use the [`syntax`](https://docs.docker.com/reference/dockerfile/#syntax) directive to specify the Dockerfile syntax version to the latest stable version.
 # Environment replacement
-- In certain instructions, *environment variables* (declared with the `ENV` statement) will be interpreted as variables.
+- In certain instructions, *environment variables* (declared with the `ENV` statement) will be interpreted as variables. Those instructions are the following-
+	- `ADD`
+	- `COPY`
+	- `ENV`
+	- `EXPOSE`
+	- `FROM`
+	- `LABEL`
+	- `STOPSIGNAL`
+	- `USER`
+	- `VOLUME`
+	- `WORKDIR`
+	- `ONBUILD` (when combined with one of the supported instructions above)
+In the following instructions, *variable substitution* will be handled by the command shell-
+	- `RUN`
+	- `CMD`
+	- `ENTRYPOINT`
+> Note
+> 
