@@ -86,4 +86,99 @@ In the following instructions, *variable substitution* will be handled by the co
 	- `CMD`
 	- `ENTRYPOINT`
 > Note
-> 
+> Instructions using the exec form don't invoke the command shell automatically.
+# .dockerignore file
+Use the `.dockerignore` file to exclude files and directories from the build context. For more information, see [.dockerignore file](https://docs.docker.com/build/building/context/#dockerignore-files).
+# Shell and exec form
+The `RUN`, `CMD`, and `ENTRYPOINT` instructions all have two possible forms:
+- `INSTRUCTION ["executable","param1","param2"]` (exec form) <- This is JSON array syntax.
+- `INSTRUCTION command param1 param2` (shell form)
+The exec form makes it possible to avoid shell string munging, and to invoke commands using a specific command shell, or any other executable. It uses a JSON array syntax, where each element in the array is a command, flag, or argument.
+
+The shell form is more relaxed, and emphasizes ease of use, flexibility, and readability. The shell form automatically uses a command shell, whereas the exec form does not.
+## Exec form
+- The exec form doesn't automatically invoke a command shell. So `RUN ["echo", "$HOME"]` won't substitute `$HOME`. 
+- You must escape backslashes like so, `RUN ["c:\\windows\\system32\\tasklist.exe"]`
+## Shell form
+- The shell form always invokes a command shell.
+- This lets you escape new lines using the [[#`escape`]] character to continue a single instruction onto the next line
+```dockerfile
+RUN source $HOME/.bashrc && \
+echo $HOME
+```
+- You can use Heredocs with the shell form as well. Like so,
+```dockerfile
+RUN <<EOF
+source $HOME/.bashrc && \
+echo $HOME
+EOF
+```
+### Use a different shell
+You can specify the shell using the `SHELL` command. Like so,
+```
+SHELL ["/bin/bash", "-c"]
+RUN echo hello
+```
+> Note:
+> The base image needs to have the shell to use the declared shell. If it doesn't have it at inception, simply install it with the package manager.
+
+# `FROM`
+```dockerfile
+FROM [--platform=<platform>] <image> [AS <name>]
+```
+or,
+```dockerfile
+FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
+```
+or,
+```dockerfile
+FROM [--platform=<platform>] <image>[@<digest>] [AS <name>]
+```
+- `FROM` sets the base image.
+> Note
+> `ARG` is the only command that may precede `FROM`.
+- `FROM` can be used multiple times within a single dockerfile to use multiple images or use one build stage as a dependency for another.
+> Warning!
+> Each `FROM` instruction clears any state created by previous instructions.
+- Optionally a name can be given to a new build stage by adding `AS name` to the `FROM` instruction. The name can be used in subsequent `FROM <name>`, [`COPY --from=<name>`](https://docs.docker.com/reference/dockerfile/#copy---from), and [`RUN --mount=type=bind,from=<name>`](https://docs.docker.com/reference/dockerfile/#run---mounttypebind) instructions to refer to the image built in this stage.
+- The `tag` or `digest` values are optional. If you omit either of them, the builder assumes a `latest` tag by default. The builder returns an error if it can't find the `tag` value.
+- The optional `--platform` flag can be used to specify the platform of the image in case `FROM` references a multi-platform image. For example, `linux/amd64`, `linux/arm64`, or `windows/amd64`. By default, the target platform of the build request is used. Global build arguments can be used in the value of this flag, for example [automatic platform ARGs](https://docs.docker.com/reference/dockerfile/#automatic-platform-args-in-the-global-scope) allow you to force a stage to native build platform (`--platform=$BUILDPLATFORM`), and use it to cross-compile to the target platform inside the stage.
+## Understand how `ARG` and `FROM` interact
+- `FROM` instructions support `ARG`s declared earlier.
+```dockerfile
+ARG  CODE_VERSION=latest
+FROM base:${CODE_VERSION}
+CMD  /code/run-app
+
+FROM extras:${CODE_VERSION}
+CMD  /code/run-extras
+```
+# `RUN`
+- `RUN` will execute any command to create a new layer.
+```dockerfile
+# Shell form:
+RUN [OPTIONS] <command> ...
+# Exec form:
+RUN [OPTIONS] [ "<command>", ... ]
+```
+Example:
+```dockerfile
+# shell form
+RUN <<EOF
+apt-get update
+apt-get install -y curl
+EOF
+```
+Options can be any of the following-
+- `--device` (1.14-labs >=)
+- `--mount` (1.2 >=)
+- `--network` (1.3 >=)
+- `--security` (1.1.2-labs >=)
+## Cache invalidation for RUN instructions
+The cache for `RUN` instructions isn't invalidated automatically during the next build. The cache for an instruction like `RUN apt-get dist-upgrade -y` will be reused during the *next build*(when `docker build` is used again later). The cache for `RUN` instructions can be invalidated by using the `--no-cache` flag, for example `docker build --no-cache`.
+
+See the [Dockerfile Best Practices guide](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/) for more information.
+
+The cache for `RUN` instructions can be invalidated by [`ADD`](https://docs.docker.com/reference/dockerfile/#add) and [`COPY`](https://docs.docker.com/reference/dockerfile/#copy) instructions.
+## `RUN --device`
+`RUN --device=name,[required]`
