@@ -171,7 +171,7 @@ EOF
 ```
 Options can be any of the following-
 - `--device` (1.14-labs >=)
-- `--mount` (1.2 >=)
+- [[#`RUN --mount`]] (1.2 >=)
 - `--network` (1.3 >=)
 - `--security` (1.1.2-labs >=)
 ## Cache invalidation for RUN instructions
@@ -182,3 +182,14 @@ See the [Dockerfile Best Practices guide](https://docs.docker.com/engine/usergui
 The cache for `RUN` instructions can be invalidated by [`ADD`](https://docs.docker.com/reference/dockerfile/#add) and [`COPY`](https://docs.docker.com/reference/dockerfile/#copy) instructions.
 ## `RUN --device`
 `RUN --device=name,[required]`
+## `RUN --mount`
+`RUN --mount=[type=<TYPE>][,option=<value>[,option=<value>]...]`
+Supported mount types:
+
+|[`bind`](https://docs.docker.com/reference/dockerfile/#run---mounttypebind) (default)|Bind-mount context directories (read-only).|
+|[`cache`](https://docs.docker.com/reference/dockerfile/#run---mounttypecache)|Mount a temporary directory to cache directories for compilers and package managers.|
+|[`tmpfs`](https://docs.docker.com/reference/dockerfile/#run---mounttypetmpfs)|Mount a `tmpfs` in the build container.|
+|[`secret`](https://docs.docker.com/reference/dockerfile/#run---mounttypesecret)|Allow the build container to access secure files such as private keys without baking them into the image or build cache.|
+|[`ssh`](https://docs.docker.com/reference/dockerfile/#run---mounttypessh)|Allow the build container to access SSH keys via SSH agents, with support for passphrases.|
+
+Contents of the cache directories persists between builder invocations without invalidating the instruction cache. Cache mounts should only be used for better performance. Your build should work with any contents of the cache directory as another build may overwrite the files or GC may clean it if more storage space is needed.
