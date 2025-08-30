@@ -196,4 +196,68 @@ Supported mount types:
 |[`ssh`](https://docs.docker.com/reference/dockerfile/#run---mounttypessh)|Allow the build container to access SSH keys via SSH agents, with support for passphrases.|
 
 Contents of the cache directories persists between builder invocations without invalidating the instruction cache. Cache mounts should only be used for better performance. Your build should work with any contents of the cache directory as another build may overwrite the files or GC may clean it if more storage space is needed.
+# `EXPOSE`
+```
+EXPOSE <port> [<port>/<protocol>...]
+```
+```sh
+docker run [-p cport:hport/<protocol> ... ] 
+```
+where `cport` means container port and `hport` means host port
+Example:
+`EXPOSE 80/udp`
+- `EXPOSE` instruction informs Docker that the container listens on the 'exposed' ports during *runtime*. The port can listen on either TCP or UDP (default is TCP.)
+- `EXPOSE` doesn't publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container, about which ports are intended to be published.
+-  To publish the port, use `docker run -p` to publish and map one or more ports. Use `-P` to publish all exposed ports and map them to higher order ports.
+- To expose a port on both TCP and UDP, simply do that with two lines-
+```dockerfile
+EXPOSE 80/tcp
+EXPOSE 80/udp
+```
+In this case, if you use -P with docker run, the port will be exposed once for TCP and once for UDP. Remember that -P uses an ephemeral high-ordered host port on the host, so TCP and UDP doesn't use the same port.
+- Regardless of the `EXPOSE` settings, you can override them at runtime by using the `-p` flag. For example
+```sh
+docker run -p 80:80/tcp -p 80:80/udp ...
+```
+## Note on Inter-container networking
+To set up port redirection on the host system, see [using the -P flag](https://docs.docker.com/reference/cli/docker/container/run/#publish). The `docker network` command supports creating networks for communication among containers without the need to expose or publish specific ports, because the containers connected to the network can communicate with each other over any port. For detailed information, see the [overview of this feature](https://docs.docker.com/engine/userguide/networking/).
+# `ENV`
+`ENV <key>=<value> [<key>=<value>...]`
+The environment variables set using `ENV` will persist when a container is run from the resulting image. You can view the values using `docker inspect`, and change them using `docker run --env <key>=<value>`
+A stage inherits any environment variables that were set using `ENV` by its parent stage or any ancestor. Refer to the [multi-stage builds section](https://docs.docker.com/build/building/multi-stage/) in the manual for more information.
+**Best practice:** If an environment variable is only needed during build, and not in the final image, consider setting a value for a single command instead:
+`RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y ...`
+Or using [`ARG`](https://docs.docker.com/reference/dockerfile/#arg), which is not persisted in the final image:
+```dockerfile
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y ...
+```
+## Alternative syntax
+```dockerfile
+ENV MY_VAR my-value
+```
+> Note:
+> This syntax does not allow multiple environment-variables to be set in one `ENV` instruction. Hence this syntax is discouraged.
 
+# `ADD`
+```dockerfile
+ADD [OPTIONS] <src> ... <dest>
+ADD [OPTIONS] ["<src>", ... "<dest>"]
+```
+options:
+- `--keep-git-dir` → 1.1  
+- `--checksum` → 1.6  
+- `--chown` → *not specified*  
+- `--chmod` → 1.2  
+- `--link` → 1.4  
+- `--exclude` → 1.7-labs  
+The `ADD` instruction copies new files or directories from `<src>` and adds them to the filesystem of the image at the path `<dest>`. Files and directories can be copied from the build context, a remote URL, or a Git repository.
+> Note:
+> The `ADD` and `COPY` instructions are functionally similar, but serve slightly different purposes. Learn more about the [differences between `ADD` and `COPY`](https://docs.docker.com/build/building/best-practices/#add-or-copy).
+## Source
+BuildKit detects the type of `<src>` and processes it accordingly.
+
+- If `<src>` is a local file or directory, the contents of the directory are copied to the specified destination. See [Adding files from the build context](https://docs.docker.com/reference/dockerfile/#adding-files-from-the-build-context).
+- If `<src>` is a local tar archive, it is decompressed and extracted to the specified destination. See [Adding local tar archives](https://docs.docker.com/reference/dockerfile/#adding-local-tar-archives).
+- If `<src>` is a URL, the contents of the URL are downloaded and placed at the specified destination. See [Adding files from a URL](https://docs.docker.com/reference/dockerfile/#adding-files-from-a-url).
+- If `<src>` is a Git repository, the repository is cloned to the specified destination. See [Adding files from a Git repository](https://docs.docker.com/reference/dockerfile/#adding-files-from-a-git-repository).
