@@ -1,0 +1,2 @@
+## Hybrid implementation systems
+- First their compiled in a virtual environment e.g. JVM. This makes them portable. JVM produces *bytecode* and note *object code*. The JVM is still dependent on the underlying OS, however not as dependent as a purely compiled code. 
