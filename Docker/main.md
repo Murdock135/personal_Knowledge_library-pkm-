@@ -28,3 +28,14 @@ This pulls an image from the `docker.io` registry, the `docker` namespace, the `
 > `ghcr.io/dockersamples/example-voting-app-vote:pr-311`
 
 This pulls an image from the github container registry, `dockersamples` namespace, the `example-voting-app-vote` image with the `pr-311` tag.
+
+---
+To tag an already built image, use
+```sh
+docker image tag my-username/my-image another-username/another-image:v1
+```
+## Publishing
+```
+docker push my-username/my-image
+```
+This pushes `my-username/my-image` to a registry

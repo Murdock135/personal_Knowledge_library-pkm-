@@ -261,3 +261,6 @@ BuildKit detects the type of `<src>` and processes it accordingly.
 - If `<src>` is a local tar archive, it is decompressed and extracted to the specified destination. See [Adding local tar archives](https://docs.docker.com/reference/dockerfile/#adding-local-tar-archives).
 - If `<src>` is a URL, the contents of the URL are downloaded and placed at the specified destination. See [Adding files from a URL](https://docs.docker.com/reference/dockerfile/#adding-files-from-a-url).
 - If `<src>` is a Git repository, the repository is cloned to the specified destination. See [Adding files from a Git repository](https://docs.docker.com/reference/dockerfile/#adding-files-from-a-git-repository).
+
+# What to read next
+1. [Learn how to use build cache](https://docs.docker.com/get-started/docker-concepts/building-images/using-the-build-cache/)
