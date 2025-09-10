@@ -1,0 +1,7 @@
+- Managing python versions
+- Running scripts
+- Running scripts by specifying dependencies. (You can also remove dependencies.)
+- Working with projects and project dependencies.
+- Using, installing and uninstalling tools
+- Manually managing environments and packages.
+- 
