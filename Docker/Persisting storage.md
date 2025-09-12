@@ -28,7 +28,7 @@ To which you'll see something like the following
 ]
 ```
 # Persisting data within a host machine in a container
-- A bind mount is another type of mount, which lets you share a directory from the host's filesystem into the container. The container will get live updates to any changes made within the host machine, for example, changing source code from a project within the host machine.
+- A bind mount is another type of mount, which **lets you share a directory from the host's filesystem into the container**. The container will get live updates to any changes made within the host machine, for example, changing source code from a project within the host machine.
 - The container sees the changes you make to the code immediately, as soon as you save a file. This means that you can run processes in the container that watch for filesystem changes and respond to them.
 - You can use https://npmjs.com/package/nodemon to watch for file changes, and then restart the application automatically.
 # Quick volume type comparisons
@@ -39,7 +39,20 @@ The following are examples of a named volume and a bind mount using `--mount`:
 
 The following table outlines the main differences between volume mounts and bind mounts.
 ![[Pasted image 20250909222736.png]]
+> Note:
+> You can only share certain parts of the local host machine with docker containers. To learn more, see [this](https://docs.docker.com/desktop/settings-and-maintenance/settings/#file-sharing).
 
+# File sharing
+- By default, the following directories are shared
+	- `/Users`
+	- `/Volumes`
+	- `/private`
+	- `/tmp`
+	- `/var/folders`
+- If your project is not within any of the above directories, it must be added to the list. Else, you will see one of the errors: `Mounts denied`, `cannot start service`
+# Dev containers
+- Using bind mounts is common for local development setups
 # Refs
 1. https://docs.docker.com/get-started/workshop/05_persisting_data/#container-volumes
 2. https://docs.docker.com/get-started/workshop/06_bind_mounts/
+3. https://docs.docker.com/desktop/settings-and-maintenance/settings/#file-sharing
