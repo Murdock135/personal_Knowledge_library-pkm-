@@ -1,4 +1,4 @@
-
+> **Note**: This folder and the notes within are deprecated in the sense that if you watch this youtube playlist [free docker fundamentals course](https://youtube.com/playlist?list=PLTk5ZYSbd9Mg51szw21_75Hs1xUpGObDm&si=v1swlww6I45_Ot9a), you don't need to learn about docker from this folder.
 # What is docker
 Docker is software that helps to create packaged [containers](https://cloud.google.com/learn/what-are-containers), which are essentially just file systems that contain everything an application needs to be run.
 The 2 main tools that docker makes use of are 
@@ -68,11 +68,10 @@ The `-a` attaches your terminal to the container output, and `-i` makes it inter
 This is the part where you will learn how to build your own docker images. We do this with a dockerfile. Let's define that first.
 ## Dockerfile
 > **Note**:
-> Right off the bat, I will notify you that writing a *good* or *optimized* dockerfile requires knowledge of software development practices, networking and last but definitely not least, understanding how docker internals work, which in turn h
-> elps understand how docker handles file exchanges and networking.
+> Right off the bat, I will tell you that writing a *good* or *optimized* dockerfile requires knowledge of software development practices (such as where does package dependency lists go, where in the file system is software downloaded, where do certain packages keep cache, etc), networking and last but definitely not least, understanding how docker internals work, which in turn helps understand how docker handles file sharing and networking.
 
 The dockerfile is essentially a specification that declares everything one needs inside a container, be that for developing applications or just writing random files of code or text, the use case is up for the user to decide.
-The syntax for the dockerfile is much like bash, although, it is possible to create custom syntax. Here is an example:
+The syntax for the dockerfile is much like a mix of bash and SQL, although, it is possible to create custom syntax. Here is an example:
 ```dockerfile
 FROM python:3.13
 WORKDIR /usr/local/app
@@ -91,3 +90,7 @@ USER app
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
 ```
+The words in block e.g. `FROM` are called **instructions** and the words after an instruction are **arguments**. For a full list of instructions that can be used in the dockerfile see [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) (Reading this at this point won't be beneficial to most readers at this point).
+**Explanation of the above dockerfile**:
+1. It imports a pre-built image from dockerhub, which is 'python:3.13'. This is an image that the folks at python made.
+2. It sets the working directory to `/usr/local/app`. This means that if the instructions `ADD`, `CMD`, `ENTRYPOINT`, `COPY` or `RUN` is used after the workdir has been set, they will be run from that directory.
