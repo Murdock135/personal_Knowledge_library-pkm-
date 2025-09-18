@@ -65,7 +65,7 @@ The `-a` attaches your terminal to the container output, and `-i` makes it inter
 
 ---
 # Docker- Beyond the basics
-This is the part where you will learn how to build your own docker images. We do this with a dockerfile. Let's define that first.
+This is the part where you will learn how to build your own docker images and understanding the nature of docker images. We build an image dockerfile. Let's define that first.
 ## Dockerfile
 > **Note**:
 > Right off the bat, I will tell you that writing a *good* or *optimized* dockerfile requires knowledge of software development practices (such as where does package dependency lists go, where in the file system is software downloaded, where do certain packages keep cache, etc), networking and last but definitely not least, understanding how docker internals work, which in turn helps understand how docker handles file sharing and networking.
@@ -94,3 +94,47 @@ The words in block e.g. `FROM` are called **instructions** and the words after a
 **Explanation of the above dockerfile**:
 1. It imports a pre-built image from dockerhub, which is 'python:3.13'. This is an image that the folks at python made.
 2. It sets the working directory to `/usr/local/app`. This means that if the instructions `ADD`, `CMD`, `ENTRYPOINT`, `COPY` or `RUN` is used after the workdir has been set, they will be run from that directory.
+3. This copies `requirements.txt` into `./` which means the current directory, which was set earlier with the `WORKDIR` instruction.
+4. This installs packages from the `requirements.txt` file and additionally tells pip to not keep the information of what package has been installed in the cache
+
+# Advanced Docker: Writing Optimized dockerfiles
+When building with docker, a layer is reused from the 'build cache' if the instruction and the files *it depends on* don't change. This is more efficient than rebuilding every layer whenever you use `docker build` or `docker run`. This can be taken advantage of and some of the ways to take advantage of this will seem unintuitive at first, but bear with me. You'll see the difference with experience.
+Here are the techniques to optimize builds according to docker's docs:
+1. Ordering layers in a smart way aka ordering the instructions in a smart way.
+2. Keep the context small
+3. Using *bind mounts* 
+4. Using *cache mounts*
+5. Using an external cache.
+Now we discuss the above 5 things a little more extensively
+## Ordering Instructions
+
+## Using cache mounts
+This ones a bit tricky and I myself found it *very* hard to understand. 
+The right place to start to understand this is the `RUN` command. The `RUN` command lets us run any binaries available in the *current layer*. So, if you had Ubuntu installed in a previous layer, you can use any binaries that come with Ubuntu. For example, we can use the following to download the `gcc` program.
+
+```dockerfile
+FROM ubuntu
+
+# Allow ubuntu to cache package downloads
+RUN rm -f /etc/apt/apt.conf.d/docker-clean
+RUN apt update && apt-get install -y gcc
+```
+In the above dockerfile, we did not use a cache mount. So no matter how many times you build a docker image from this dockerfile, it will redownload the `gcc` program, as any sensible person would expect. Now, let's use a cache mount with the `--mount=type=cache` command with `RUN`.
+Okay but before we actually use it, let's think about *why* we would use this. Like I said before, no matter how many times you build an image from this dockerfile, it will redownload the `gcc` program's installation file (in the case of debian based distros, these are `.deb` files). But, what if we had knowledge of the fact that we already downloaded the `gcc` program for containers built out of this image? If only we had a way to *persist* this knowledge! And we can do this by *caching* this information into the *builder;* [BuildKit](https://docs.docker.com/build/buildkit/). Specifically, we can move the directory that is *meant to hold* this information into buildkit's storage (the wording 'meant to hold' is important). In the case of the `apt` package manager, this is the `/var/cache/apt/`. 
+```
+FROM ubuntu
+# Allow ubuntu to cache package downloads
+RUN rm -f /etc/apt/apt.conf.d/docker-clean
+RUN \
+    --mount=type=cache,target=/var/cache/apt \
+    apt update && apt-get --no-install-recommends install -y gcc
+```
+Now, what did I mean by "we can move the directory that is meant to hold this ..."? where is this so called directory? This is inside the corresponding `RUN` layer's temporary file system (as you know, these temporary file systems are unioned into a "Union File System", which you don't need to understand but if you have OCD, find resources to read about them in [[Union file system]]). 
+
+Useful resources:
+- https://docs.docker.com/build/cache/optimize/#use-cache-mounts
+- [Difference between --cache-to/from and --mount type=cache in docker buildx build](https://stackoverflow.com/questions/76351391/difference-between-cache-to-from-and-mount-type-cache-in-docker-buildx-build/76351422#76351422)
+- https://yuki-nakamura.com/2024/02/04/use-a-run-cache-between-builds-in-buildkit/
+- https://wordpress.com/post/yuki-nakamura.com/1476
+- https://wordpress.com/post/yuki-nakamura.com/1512
+- https://depot.dev/blog/how-to-use-buildkit-cache-mounts-in-ci
