@@ -131,10 +131,11 @@ RUN \
 ```
 Now, what did I mean by "we can move the directory that is meant to hold this ..."? where is this so called directory? This is inside the corresponding `RUN` layer's temporary file system (as you know, these temporary file systems are unioned into a "Union File System", which you don't need to understand but if you have OCD, find resources to read about them in [[Union file system]]). 
 
-Useful resources:
+# References
 - https://docs.docker.com/build/cache/optimize/#use-cache-mounts
 - [Difference between --cache-to/from and --mount type=cache in docker buildx build](https://stackoverflow.com/questions/76351391/difference-between-cache-to-from-and-mount-type-cache-in-docker-buildx-build/76351422#76351422)
 - https://yuki-nakamura.com/2024/02/04/use-a-run-cache-between-builds-in-buildkit/
 - https://wordpress.com/post/yuki-nakamura.com/1476
 - https://wordpress.com/post/yuki-nakamura.com/1512
 - https://depot.dev/blog/how-to-use-buildkit-cache-mounts-in-ci
+- https://www.docker.com/blog/understanding-the-docker-user-instruction/
