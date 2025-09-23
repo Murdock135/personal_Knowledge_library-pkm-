@@ -1,4 +1,7 @@
 > **Note**: This folder and the notes within are deprecated in the sense that if you watch this youtube playlist [free docker fundamentals course](https://youtube.com/playlist?list=PLTk5ZYSbd9Mg51szw21_75Hs1xUpGObDm&si=v1swlww6I45_Ot9a), you don't need to learn about docker from this folder.
+
+# Who should learn Docker?
+Docker is not for everyone...
 # What is docker
 Docker is software that helps to create packaged [containers](https://cloud.google.com/learn/what-are-containers), which are essentially just file systems that contain everything an application needs to be run.
 The 2 main tools that docker makes use of are 
@@ -131,6 +134,10 @@ RUN \
 ```
 Now, what did I mean by "we can move the directory that is meant to hold this ..."? where is this so called directory? This is inside the corresponding `RUN` layer's temporary file system (as you know, these temporary file systems are unioned into a "Union File System", which you don't need to understand but if you have OCD, find resources to read about them in [[Union file system]]). 
 
+# Next Steps
+You can follow multiple learning routes from here. 
+- You can learn about using Docker compose to make multiple *services* and/or containers work together.
+- You can learn to use [Docker Bake](https://docs.docker.com/build/bake/)
 # References
 - https://docs.docker.com/build/cache/optimize/#use-cache-mounts
 - [Difference between --cache-to/from and --mount type=cache in docker buildx build](https://stackoverflow.com/questions/76351391/difference-between-cache-to-from-and-mount-type-cache-in-docker-buildx-build/76351422#76351422)
