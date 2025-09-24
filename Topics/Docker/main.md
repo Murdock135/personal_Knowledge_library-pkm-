@@ -9,8 +9,8 @@ The 2 main tools that docker makes use of are
 2. A compose file (basically a YAML file)
 In Docker-speak, docker accomplishes this by creating an [[image]], which is essentially a specification that declares everything one needs inside a container, be that for developing applications or just writing random files of code or text, the use case is up for the user to decide. Thus, to learn docker, one needs to learn *how to build a docker image* and then *how to create a container out of that image.* Furthermore, it is possible to make a set of containers talk to each other and essentially serve the same application. For example, 1 container may contain a database and another, a backend for a website. It is possible to write to the database from the backend-containing container.
 There are two ways of *accessing* images.
-1. *Running* a prebuilt image
-2. *Building* an image yourself (from a *base image*, which acts as a primitive) and *then* running it.
+3. *Running* a prebuilt image
+4. *Building* an image yourself (from a *base image*, which acts as a primitive) and *then* running it.
 Some notes:
 - An image can make use of other images. Like, building software on top of other software.
 # Docker basic usage
