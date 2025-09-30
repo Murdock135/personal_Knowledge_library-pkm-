@@ -1,1 +1,6 @@
 First introduced by [Arthur P. Dempster](https://en.wikipedia.org/wiki/Arthur_P._Dempster "Arthur P. Dempster") in the context of [statistical inference](https://en.wikipedia.org/wiki/Statistical_inference "Statistical inference"), the theory was later developed by [Glenn Shafer](https://en.wikipedia.org/wiki/Glenn_Shafer "Glenn Shafer") into a general framework for modeling epistemic uncertainty—a mathematical theory of [evidence](https://en.wikipedia.org/wiki/Evidence "Evidence").
+The theory now falls under *monotone measure theory* or non-additive measure theory. In older publications, it is referred to as fuzzy measure theory. The latter term is a misnomer as most frameworks subsumed under the term are in fact, *not fuzzy*.
+There are three major frameworks from which the problem of interval-based representation of uncertainty has been approached: 
+1. Imprecise probabilities (initial work by Walley, Fine; Kuznetsov); 
+2. Possibility theory (Zadeh; Dubois and Prade; Yager); and the 
+3. Dempster-Shafer theory of evidence. (Dempster; Shafer; Yager; Smets)” (Sentz and Ferson, 2002, p. 9)

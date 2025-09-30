@@ -3,56 +3,33 @@ keywords:
   - volume
   - mounting
 ---
-# Persisting data within a container on the host machine
-- [Volumes](https://docs.docker.com/engine/storage/volumes/) provide the ability to connect specific filesystem paths of the container back to the host machine. If you mount a directory in the container, changes in that directory are also seen on the host machine. If you mount that same directory across container restarts, you'd see the same files.
-- Create a volume using
+# Motivation
+By default, data written into a container doesn't persist after the container is destroyed. To overcome this, docker provides the following methods.
+- [Volume mounts](https://docs.docker.com/engine/storage/#volume-mounts)
+- [Bind mounts](https://docs.docker.com/engine/storage/#bind-mounts)
+- [tmpfs mounts](https://docs.docker.com/engine/storage/#tmpfs-mounts)
+- [Named pipes](https://docs.docker.com/engine/storage/#named-pipes)
+No matter which type of mount you choose to use, the data looks the same from within the container. It is exposed as either a directory or an individual file in the container's filesystem.
+# Volume mounts
+Volume data is stored on the host, but **can only be interacted with from a container** and is managed by the Docker daemon. When you create a volume, a new directory is created within Docker's storage directory on the host machine and Docker manages everything within it. [from bind mounts](https://docs.docker.com/engine/storage/bind-mounts/)Volumes are ideal for performance-critical data processing and long-term storage needs.
+Volumes can be created with
+```bash
+docker volume create <volume name>
 ```
-docker volume create <db_name>
+# Bind mounts
+Bind mounts can be accessed by both docker containers and the filesystem. When you use a bind mount, a file or directory on the host machine is mounted from the host into a container.[from bind mounts](https://docs.docker.com/engine/storage/bind-mounts/)Use bind mounts when you need to be able to access files from both the container and the host. **Use bind mounts to share source code between a dev environment on the docker host and a container.** If you don't want the container to write to the mounted data, you can use the `ro`(`readonly`) option. The actual command to bind mount will be discussed later.
+```bash
+docker run --mount type=bind,src=<host-path>,dst=<container-path>
+docker run --volume <host-path>:<container-path>
 ```
-- To check where docker persists that volume, use
-```
-docker volume inspect todo-db
-```
-To which you'll see something like the following
-```
-[
-    {
-        "CreatedAt": "2025-09-09T21:55:55-05:00",
-        "Driver": "local",
-        "Labels": null,
-        "Mountpoint": "/var/lib/docker/volumes/<db_name>/_data",
-        "Name": "<db_name>",
-        "Options": null,
-        "Scope": "local"
-    }
-]
-```
-# Persisting data within a host machine in a container
-- A bind mount is another type of mount, which **lets you share a directory from the host's filesystem into the container**. The container will get live updates to any changes made within the host machine, for example, changing source code from a project within the host machine.
-- The container sees the changes you make to the code immediately, as soon as you save a file. This means that you can run processes in the container that watch for filesystem changes and respond to them.
-- You can use https://npmjs.com/package/nodemon to watch for file changes, and then restart the application automatically.
-# Quick volume type comparisons
-The following are examples of a named volume and a bind mount using `--mount`:
-
-- Named volume: `type=volume,src=my-volume,target=/usr/local/data`
-- Bind mount: `type=bind,src=/path/to/data,target=/usr/local/data`
-
-The following table outlines the main differences between volume mounts and bind mounts.
-![[Pasted image 20250909222736.png]]
 > Note:
-> You can only share certain parts of the local host machine with docker containers. To learn more, see [this](https://docs.docker.com/desktop/settings-and-maintenance/settings/#file-sharing).
+> `--mount` is the preferred way because `--volume` will create the `<host-path>` if it doesn't exist!
 
-# File sharing
-- By default, the following directories are shared
-	- `/Users`
-	- `/Volumes`
-	- `/private`
-	- `/tmp`
-	- `/var/folders`
-- If your project is not within any of the above directories, it must be added to the list. Else, you will see one of the errors: `Mounts denied`, `cannot start service`
-# Dev containers
-- Using bind mounts is common for local development setups
-# Refs
-1. https://docs.docker.com/get-started/workshop/05_persisting_data/#container-volumes
-2. https://docs.docker.com/get-started/workshop/06_bind_mounts/
-3. https://docs.docker.com/desktop/settings-and-maintenance/settings/#file-sharing
+ 
+## Bind-mounting over existing data
+If stuff already exists where you're trying to mount data into, the pre-existing stuff will be "obscured". [bind mounting over existing data](https://docs.docker.com/engine/storage/bind-mounts/#bind-mounting-over-existing-data). With containers, there's no straightforward way of removing a mount to reveal the obscured files again. Your best option is to recreate the container without the mount.
+# tmpfs mounts
+While this kind of data is stored in the host's **memory**, the data is lost when the container is stopped or restarted or even when the host is rebooted.
+These mounts are suitable for scenarios requiring temporary, in-memory storage, such as caching intermediate data, handling sensitive information like credentials, or reducing disk I/O. Use tmpfs mounts only when the data does not need to persist beyond the current container session.
+# Named Pipes
+[Named pipes](https://docs.microsoft.com/en-us/windows/desktop/ipc/named-pipes) can be used for communication between the Docker host and a container. Common use case is to run a third-party tool inside of a container and connect to the Docker Engine API using a named pipe.
