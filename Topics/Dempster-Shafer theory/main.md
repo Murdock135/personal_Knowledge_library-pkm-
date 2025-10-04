@@ -42,5 +42,4 @@ mass_function = {
 
 A = {'b'}
 print(plausibility(A, mass_function))  # Output: 0.7
-
 ```
