@@ -131,9 +131,48 @@ DST categorizes evidence into structural types【19†source】:
 3. **Arbitrary evidence**: No universally common element across subsets.  
 4. **Disjoint evidence**: Subsets share no common elements (totally disjoint).  
 
-## Conclusion
-
-Dempster-Shafer Theory provides a powerful alternative to classical probability for reasoning under uncertainty. By distinguishing between belief, plausibility, and ignorance, DST allows for nuanced treatment of incomplete information and supports evidence fusion from multiple sources.  
-
-It is widely applied in **sensor fusion, decision theory, information retrieval, and artificial intelligence**, where classical probability models may fail to capture epistemic uncertainty.
-
+# Rules for Combining Evidence
+Combination rules fall under *information aggregation methods*. In DST, it is assumed that the sources of information are *independent (TODO: DEFINE THIS).* 
+The rules reflect a continuum between conjunction (AND) and disjunction (OR) (Dubois and Prade, 1992). The primary categories are the following:
+1. Conjunctive pooling
+2. Disjunctive pooling
+3. Tradeoff
+There are multiple operators under each category. The tradeoff combination assumes less information than what is assumed in a Bayesian approach (The meaning of this will be clearer with practice problems). This leads to results being less *precise* (again, the meaning will surface with practice problems).
+Below is a brief discussion of the operators aka rules. The rules will be discussed *relative to* four algebraic properties (idk what this means):
+- Commutativity: $A*B=B*A$ 
+- Idempotence: $A*A=A$
+- Continuity: $A*B=A'*B$ where $A \approx A'$
+- Associativity: $A*(B*C)=(A*B)*C$
+where \* denotes the operation.
+## Dempster's rule
+Dempster's rule assumes 2 things:
+1. The belief functions to be combined are from the same *frame of discernment*.
+2. The information sources are independent.
+The combination operator is
+$$
+m_{12}(A) = \frac{ \sum_{B \cap C = A} m_1 (B) m_2 (C)}{1-K}
+$$
+When $A \neq \phi$ .
+where 
+$$
+K = \sum_{B \cap C=\phi} m_1(B) m_2(C)
+$$
+$K$ corresponds to the mass associated with conflict. 
+Some characteristics about this rule:
+- This rule ignores conflicting evidence and amplifies agreement between sources; basically an AND operation. The denominator achieves this.
+- The rule is *commutative and associative* and *not* *idempotent and continuous*
+## Discount + Combine
+This rule first discounts sources based on their *reliability* and then combines using any combination operator. Therefore, the first task on the user's part is to mathematically quantify or express *reliability*. Shafer demonstrated a very simple example by scaling belief functions with an expression; $1-\alpha_i$ where $\alpha_i \in [0,1]$ and i indicates the index of a *discounting function* associated with a particular belief measure. For example, $Bel^{\alpha_i}(A)$ represents the discounted belief function, 
+$$
+Bel^{a_i}(A) = (1-\alpha_i)Bel(A)
+$$
+This notation achieves 2 things
+1. Indicate which belief function is being discounted (so can we have multiple discounting functions for one belief function?)
+2. Indicate the amount of *untrust* ($\alpha$) (so can we have multple values for one belief function?)
+Then the final Belief is obtained by using a combination operator. For example, averaging:
+$$
+\bar{Bel(A)} = \frac{1}{n} (Bel^{a_1} + Bel^{a_2} + ... + Bel^{a_n})
+$$
+for all subsets A of the universal set X.
+# Notes
+- Besides the degree of conflict, the *relevance* of conflict also matters.
