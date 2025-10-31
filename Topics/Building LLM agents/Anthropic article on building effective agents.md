@@ -13,7 +13,9 @@ These are my notes on [Building effective agents](https://www.anthropic.com/engi
 	- Orchestrator-workers
 	- Evaluator-optimizer
 - When using the Augmented LLM, use a well-documented interface (idk what this means) e.g. [MCP](https://modelcontextprotocol.io/docs/develop/build-client#building-mcp-clients)
-- 
+# Important 
+
+![[Pasted image 20251031143335.png]]
 
 # Appendix
 ## Figures
@@ -32,3 +34,5 @@ These are my notes on [Building effective agents](https://www.anthropic.com/engi
 ### Evaluator-optimizer
 ![[Pasted image 20251029140124.png]]
 
+### Agent
+![[Pasted image 20251031140400.png]]
