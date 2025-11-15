@@ -20,30 +20,6 @@ Then the plausibility of A is
 $$
 pl(A)=\sum m(\omega)
 $$
-Algorithmically, this can be expressed as
-```python
-def plausibility(A, mass_function):
-    """
-    A: set - the target subset of Omega
-    mass_function: dict - keys are frozensets B ⊆ Omega with m(B) > 0
-    returns: float - plausibility of A
-    """
-    pl = 0.0
-    for B, m in mass_function.items():
-        if A & B:  # B ∩ A ≠ ∅
-            pl += m
-    return pl
-
-# Example usage
-mass_function = {
-    frozenset({'a'}): 0.3,
-    frozenset({'a', 'b'}): 0.4,
-    frozenset({'b', 'c'}): 0.3,
-}
-
-A = {'b'}
-print(plausibility(A, mass_function))  # Output: 0.7
-```
 ![[Pasted image 20251002104723.png]]
 # Rules for Combining Evidence
 Combination rules fall under *information aggregation methods*. In DST, it is assumed that the sources of information are *independent (TODO: DEFINE THIS).* 
