@@ -1,0 +1,1 @@
+This chapter inspects the "big picture"- the important processes, terminology and data structures associated with language applications.
