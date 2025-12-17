@@ -1,0 +1,5 @@
+- Let it finish providing the output. Read after it's done generating. Don't try to keep up with it's generation.
+- Think of your conversation in phases.
+	- Planning phase
+	- Doing phase
+- 
