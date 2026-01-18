@@ -1,1 +1,1 @@
-1. Life is more about management than anything else. We have to manage our time, manage our tasks, manage our emotions, manage people who we're in charge of *and* people who are in charge of us. We have to manage life.
+1. Life is more about management than anything else. We have to manage our time, manage our tasks, manage our emotions, manage people who we're in charge of *and* people who are in charge of us. We have to manage life. - Inspired by Jurgen Klopp
