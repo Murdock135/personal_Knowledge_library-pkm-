@@ -1,0 +1,2 @@
+# Useful links
+1. [Important phone numbers and addresses](https://studentaffairs.missouri.edu/resource-guide-for-students/?utm_campaign=872112_GlobalTigers_2026.01.20&utm_medium=email&utm_source=The_Curators_of_the_University_of_Missouri&dm_i=7IQU,IOXC,4THD3W,35VBE,1,0,0,0)
