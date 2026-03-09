@@ -2,7 +2,11 @@ This is my notes for a project in socket programming in c. These are not for beg
 
 # Reading Sequence
 1. [[Sockets]]
+2. 
 
 # Online Courses
 1. https://www.udemy.com/user/nathan-house/
 2. https://www.youtube.com/watch?v=KEiur5aZnIM
+
+# Other resources
+1. https://www.linuxhowtos.org/C_C++/socket.htm
