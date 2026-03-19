@@ -1,0 +1,2 @@
+This note is about the `pickle` module, which implements *binary protocols* for serializing and deserializing a python object structure. 
+**"Pickling" is the process whereby a python object hierarchy is converted into a byte stream** whereas unpickling does the opposite- byte stream -> python object.
