@@ -1,0 +1,10 @@
+Source: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11198037
+The canonical workflow of data science comprises a series of interrelated stages that demand rigorous methodological precision. It commences with problem definition, a critical phase wherein technical objectives are meticulously aligned with business requirements through systematic scoping and goal articulation. This is followed by data exploration, during which practitioners employ exploratory data analysis (EDA) to characterize dataset distributions, identify statistical anomalies, and contextualize underlying data structures. Subsequent data cleaning procedures address empirical inconsistencies—such as missing values, outliers, and format discrepancies using validated techniques to ensure data integrity. Feature analysis then entails quantitative evaluation of attribute relevance via methods like Pearson correlation matrices or mutual information analysis, establishing a scientific basis for subsequent engineering efforts. Feature engineering constitutes a pivotal stage, involving the derivation of discriminative representations through dimensionality reduction, semantic transformation, or domain-specific feature construction. Following this, model training instantiates predictive architectures using validated algorithms, with hyperparameter tuning optimizing model configurations via cross-validation frameworks. The workflow culminates in model evaluation, where performance is quantified against industry-standard metrics to ensure alignment with predefined accuracy benchmarks prior to production deployment. This structured pipeline integrates empirical rigor with methodological standardization, enabling systematic translation of raw data into actionable insights while adhering to academic rigor.
+```
+1. EDA (Characterise distributions, identify anomalies, contextualize underlying data structures) 
+2. Data cleaning (address missing values, outliers, data types, format irregularities)
+3. Feature analysis
+4. Feature engineering
+5. Model training
+6. Evaluation
+```
