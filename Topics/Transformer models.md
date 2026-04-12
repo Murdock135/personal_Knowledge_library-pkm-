@@ -5,3 +5,4 @@
 # Catalogue
 1. https://nlp.seas.harvard.edu/annotated-transformer/
 2. https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html
+3. https://medium.com/@iammasariya/transformer-architecture-explained-with-code-359259db460f
