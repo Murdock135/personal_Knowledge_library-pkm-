@@ -1,5 +1,9 @@
-Main Source: [Neural Machine Translation for rare words and subword units](https://arxiv.org/pdf/1508.07909)
-Byte Pair Encoding (BPE) (Gage, 1994) is a sim-
-ple data compression technique that iteratively re-
-places the most frequent pair of bytes in a se-
-quence with a single, unused byte.
+
+Byte Pair encoding is a simple data compression technique. In NLP, it's used for **word segmentation**.
+
+1. Add the special 'end of word' (eow) token at the end of each word.
+2. Create a vocabulary - a mapping of each character to a number.
+
+
+References:
+1. https://sebastianraschka.com/blog/2025/bpe-from-scratch.html
