@@ -1,0 +1,1 @@
+Common LLMs are great. But honestly, they're mediocre at the basic task of writing in a readable manner. Furthermore, the success rate of having them switch 'modes' such as literature writing mode, mathy mode, rauncy, etc. is low. So, why not use smaller models that were finetuned for these tasks?
