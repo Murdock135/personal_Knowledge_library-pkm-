@@ -1,0 +1,1 @@
+We can use a similar method as how citations are inserted to improve writing in LLMs. The idea is to improve phrasing by using connectors and then iteratively improving surroundings.

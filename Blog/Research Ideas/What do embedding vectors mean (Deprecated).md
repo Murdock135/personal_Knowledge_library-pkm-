@@ -1,0 +1,3 @@
+Take different embedding learners (BERT, Transformer, etc) and check stuff related to embedding vectors such as:
+1. What do the eigen vectors represent- get eigen vectors and decode them. Are they semantically similar? what concept do the eigen vectors represent?
+2. What vector-matrix manipulation actually gets to synonyms and antonyms? Can this be used for a more token-light method of creating alternate but semantically same text (paraphrases)?
