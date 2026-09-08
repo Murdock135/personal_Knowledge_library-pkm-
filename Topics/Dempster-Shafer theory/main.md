@@ -1,5 +1,5 @@
 # Introduction
-Dempster shafer theory (DST) can be interpreted as a generalization of probability theory and deals with *evidence*, not chance (in the frequentist sense). Here, probabilities are assigned to *sets* rather than singletons. And if there is sufficient evidence so as to derive proabilities of single events, DST collapses into generic proability theory.
+Dempster shafer theory (DST) can be interpreted as a generalization of probability theory and deals with *evidence*, not chance (in the frequentist sense). Here, probabilities are assigned to *sets* rather than singletons. And if there is sufficient evidence so as to derive proabilities of single events, DST collapses into generic probability theory.
 The probability assignment function is called the *Basic Probability Assignment or BPA* function. See [[BPA]].
 From the BPA, the upper and lower bounds of an interval can be defined. These are respectively called *Plausibility* and *Belief*. Both of these measures are non-additive, meaning, the measures do not have to sum up to 1, unlike the probability assignment function.
 
