@@ -1,0 +1,1 @@
+A language that describes the architecture of an agentic system, much like an algorithm describing a procedure.
