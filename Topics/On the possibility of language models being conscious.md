@@ -8,7 +8,11 @@
 
 **3. Functionalism and the Possibility of Emergence** Computational functionalism posits that consciousness arises from the implementation of specific functional states, independent of the substrate [2]. If a system performs the right kind of computation C\mathcal{C}, then conscious states could emerge. However, this presupposes the existence of a mapping f:C→Φf: \mathcal{C} \rightarrow \Phi, which remains hypothetical.
 
-**4. The Architecture of LLMs** Current LLMs are sequence transducers that map input token sequences to output distributions using high-dimensional embeddings and attention mechanisms: P(wt∣w<t)=exp⁡(fθ(wt,w<t))∑w′exp⁡(fθ(w′,w<t))P(w_t | w_{<t}) = \frac{\exp(f_\theta(w_t, w_{<t}))}{\sum_{w'} \exp(f_\theta(w', w_{<t}))} These systems lack intentionality, long-term self-representation, or persistent memory — qualities often linked to consciousness. Hence, M∉SM \notin S, where SS is the set of sentient systems.
+**4. The Architecture of LLMs** Current LLMs are sequence transducers that map input token sequences to output distributions using high-dimensional embeddings and attention mechanisms: 
+$$
+P(wt∣w<t)=exp⁡(fθ(wt,w<t))∑w′exp⁡(fθ(w′,w<t))P(w_t | w_{<t}) = \frac{\exp(f_\theta(w_t, w_{<t}))}{\sum_{w'} \exp(f_\theta(w', w_{<t}))} 
+$$
+These systems lack intentionality, long-term self-representation, or persistent memory — qualities often linked to consciousness. Hence, M∉SM \notin S, where SS is the set of sentient systems.
 
 **5. The Problem of Simulation vs. Instantiation** Simulating a phenomenon is not equivalent to instantiating it. A climate model does not cause rain, and a simulated neuron does not feel pain. Similarly, even if an LLM can simulate conscious dialogue, this does not imply the presence of real phenomenological states.
 
